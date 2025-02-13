@@ -5,6 +5,8 @@
  * Versões: 1.0
  ***********************************************************************************************************************************************************************************/
 
+const MESSAGE = require('../../modulo/config')
+
 //Função para inserir uma música
 const inserirMusica = async function (musica){
 if  (  musica.nome            == undefined || musica.nome == ''             || musica.nome == null            || musica.nome.length > 80            ||
@@ -14,7 +16,7 @@ if  (  musica.nome            == undefined || musica.nome == ''             || m
        musica.foto.foto_capa  == undefined || musica.foto_capa.length > 200                                                                         ||
        musica.letra           == undefined
     ){
-
+        return MESSAGE.ERROR_REQUIRE_FIELDS
     }
 
 
