@@ -11,6 +11,9 @@ const { PrismaClient } = require('@prisma/client')
 
 //Função para inserir uma nova música no banco de dados
 const insertMusica =  async function(musica){
+    try{
+
+    
 
 //Instanciando (criar um novo objeto) para realizar a manipulação do script SQL
 const prisma = new PrismaClient
@@ -23,7 +26,7 @@ let sql = `insert into tbl_musica(nome,
                                   letra
                                 )                                  
                         values  (
-                                   '${musica.nome}',
+                                    '${musica.nome}',
                                     '${musica.link}',
                                     '${musica.duracao}',
                                     '${musica.data_lancamento}',
@@ -39,6 +42,11 @@ if (result)
         return true
     else
         return false
+
+}catch (error){
+     return false 
+}
+        
 
 }
 
