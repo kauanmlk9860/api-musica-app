@@ -7,6 +7,8 @@
 
 const MESSAGE = require('../../modulo/config')
 
+const musicaDAO = require('../../model/DAO/musica')
+
 //Função para inserir uma música
 const inserirMusica = async function (musica){
 if  (  musica.nome            == undefined || musica.nome == ''             || musica.nome == null            || musica.nome.length > 80            ||
@@ -17,6 +19,13 @@ if  (  musica.nome            == undefined || musica.nome == ''             || m
        musica.letra           == undefined
     ){
         return MESSAGE.ERROR_REQUIRE_FIELDS
+    }else{
+        let resultMusica = await musicaDAO.insertMusica(musica)
+
+        if(resultMusica)
+            return MESSAGE.SUCCESS_CREATED_ITEM //201
+        else
+            return MESSAGE.ERROR_INTERNAL_SERVER //500
     }
 
 
@@ -46,3 +55,10 @@ const buscarMusica = async function (){
 }
 
 
+module.exports = {
+    inserirMusica,
+    AtualizarMusica,
+    excluirMusica,
+    listarMusica,
+    buscarMusica
+}
