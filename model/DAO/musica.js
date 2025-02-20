@@ -23,12 +23,12 @@ let sql = `insert into tbl_musica(nome,
                                   letra
                                 )                                  
                         values  (
-                                    ${musica.nome},
-                                    ${musica.link},
-                                    ${musica.duracao},
-                                    ${musica.data_lancamento},
-                                    ${musica.foto_capa},
-                                    ${musica.letra}
+                                   '${musica.nome}',
+                                    '${musica.link}',
+                                    '${musica.duracao}',
+                                    '${musica.data_lancamento}',
+                                    '${musica.foto_capa}',
+                                    '${musica.letra}'
 
                                )`
 

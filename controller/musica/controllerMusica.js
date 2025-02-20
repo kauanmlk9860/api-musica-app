@@ -15,7 +15,7 @@ if  (  musica.nome            == undefined || musica.nome == ''             || m
        musica.link            == undefined || musica.link == ''             || musica.link == null            || musica.link.length > 200           ||
        musica.duracao         == undefined || musica.duracao == ''          || musica.duracao == null         || musica.duracao.length > 5          ||
        musica.data_lancamento == undefined || musica.data_lancamento == ''  || musica.data_lancamento == null || musica.data_lancamento.length > 200||
-       musica.foto.foto_capa  == undefined || musica.foto_capa.length > 200                                                                         ||
+       musica.foto_capa  == undefined || musica.foto_capa.length > 200                                                                         ||
        musica.letra           == undefined
     ){
         return MESSAGE.ERROR_REQUIRE_FIELDS
