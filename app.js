@@ -18,37 +18,96 @@
  *             npx prisma migrate dev 
  ***********************************************************************************************************************************************************************************/
 
-// Import das bibliotecas para API
+//Import das bibliotecas para criar a API 
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-// Import das controllers do projeto
-const controllerMusica = require('./controller/musica/controllerMusica')
 
-// Criando o formato de dados que será recebido no body na requisição (POST/PUT)
-const bodyParserJson = bodyParser.json()
+//Import das crotrollers do projeto
+const controllerMusica = require('./controller/musica/controllerMusica.js')
 
-// Cria o objeto app para criar a API
+//criando o  formato de dados que sera recebido no body da requisição (post/put)
+const bodyParserJSON = bodyParser.json()
+
+//Cria o objeto app para criar a API
+
 const app = express()
 
-app.use((request, response, next) => {
-    response.header('Access-Control-Allow-Origin', '*')
-    response.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
 
+app.use((request, response, next)=>{
+    response.header('Access-Control-Allow-Origin', '*')
+    response.header('Access-Control-Allow-Methods', 'GET, POST,PUT DELETE, OPTIONS')
+
+    app.use(cors())
     next()
+
 })
 
-// EndPoint para inserir uma música 
-app.post('/v1/controle-musicas/musica', cors(), bodyParserJson, async function (request, response) {
-    // Recebe os dados encaminhados via body
-    let dadosBody = request.body 
-    let result = await controllerMusica.inserirMusica(dadosBody)
+app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON, async function (request, response) {
+
+    //recebe ontentType da requisição para validar o formato de dados
+
+    let contentType = request.headers['content-type']
+    //Recebe os dados encaminhados no body da requisição
+    let dadosBody = request.body
+
+    let result = await controllerMusica.inserirMusica(dadosBody, contentType)
 
     response.status(result.status_code)
     response.json(result)
+    
 })
 
-app.listen(8080, function() {
-    console.log('Servidor aguardando novas requisições')
+
+app.get('/v1/controle-musicas/musica', cors(), async function (request, response) {
+
+    //Chama função para retornar uma lista de musicas
+    let result = await controllerMusica.listarMusica()
+
+
+    response.status(result.status_code)
+    response.json(result)
+
+
+})
+
+app.get('/v1/controle-musicas/musica/:id', cors(), async function (request, response) {
+    
+        let idMusica = request.params.id
+        let result = await controllerMusica.buscarMusica(idMusica)
+
+        response.status(result.status_code)
+        response.json(result)
+    
+})
+
+app.delete('/v1/controle-musicas/musica/:id', cors(), async function (request, response){
+
+    let idMusica = request.params.id
+    let result = await controllerMusica.excluirMusica(idMusica)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+
+
+app.put('/v1/controle-musicas/musica/:id', cors(), bodyParserJSON, async function (request, response){
+
+    let contentType = request.headers['content-type']
+
+    let idMusica = request.params.id
+
+    let dadosBody = request.body
+
+    let result = await controllerMusica.atualizarMusica(dadosBody,idMusica, contentType)
+    
+    response.status(result.status_code)
+    response.json(result)
+
+})
+app.listen(8080, function(){
+    console.log('Servidor aguardando novas requisições....')
 })
